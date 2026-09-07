@@ -1,44 +1,91 @@
 <!doctype html>
 <html lang="it">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#111827">
-<title>Fantacalcio Asta Live</title>
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#111827">
+  <title>Fantacalcio Asta Live V2</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header class="topbar">
-  <div><h1>Fantacalcio Asta Live</h1><p>Prototype mobile</p></div>
-  <button id="undoBtn" class="ghost">↶ Annulla</button>
+  <div>
+    <div class="title">⚽ Asta Live</div>
+    <div class="subtitle">Fantacalcio 2026/27 · V2 test</div>
+  </div>
+  <button id="legendBtn" class="iconBtn">ⓘ</button>
 </header>
+
 <main>
-<section class="summary card">
-<div><span>Budget mio</span><strong id="myBudget">500</strong></div>
-<div><span>Ruolo</span><strong id="roleLabel">Difensori</strong></div>
-<div><span>Acquistati</span><strong id="myCount">0/8</strong></div>
-</section>
-<section class="toolbar card">
-<div class="role-tabs">
-<button data-role="P">P</button><button data-role="D" class="active">D</button>
-<button data-role="C">C</button><button data-role="A">A</button>
-</div>
-<input id="searchInput" type="search" placeholder="Cerca giocatore...">
-</section>
-<section id="marketPressure" class="pressure card"></section>
-<section id="playerList"></section>
+  <section class="summary">
+    <div class="summaryBox"><span>Budget mio</span><strong id="budget">500</strong></div>
+    <div class="summaryBox"><span>Acquisti ruolo</span><strong id="roleCount">0/8</strong></div>
+    <div class="summaryBox"><span>F1 miei</span><strong id="f1Count">0</strong></div>
+  </section>
+
+  <section class="searchWrap">
+    <input id="search" type="search" placeholder="Cerca calciatore o squadra...">
+    <div id="suggestions" class="suggestions"></div>
+  </section>
+
+  <section class="filterRow" id="statusFilters">
+    <button data-status="free" class="active">LIBERI</button>
+    <button data-status="all">TUTTI</button>
+    <button data-status="sold">ASSEGNATI</button>
+    <button data-status="mine">MIEI</button>
+  </section>
+
+  <section class="filterRow" id="viewFilters">
+    <button data-view="tier" class="active">FASCE</button>
+    <button data-view="az">A–Z</button>
+    <button data-view="club">SQUADRA</button>
+    <button data-view="score">VALUTAZIONE</button>
+  </section>
+
+  <button id="resetFilters" class="resetBtn">↺ Reset filtri</button>
+  <section id="playerList"></section>
 </main>
+
+<nav class="bottomNav">
+  <button data-role="P">P</button>
+  <button data-role="D" class="active">D</button>
+  <button data-role="C">C</button>
+  <button data-role="A">A</button>
+  <button id="auctionBtn">ASTA</button>
+</nav>
+
 <dialog id="playerDialog">
-<form method="dialog" class="modal card">
-<button class="close" value="cancel">✕</button>
-<div id="playerDetail"></div>
-<hr>
-<label>Prezzo<input id="priceInput" type="number" min="1" inputmode="numeric"></label>
-<label>Fantallenatore<select id="managerSelect"></select></label>
-<button id="assignBtn" type="button" class="primary">Assegna giocatore</button>
-</form>
+  <article class="modal">
+    <button class="closeBtn" onclick="playerDialog.close()">✕</button>
+    <div id="playerDetail"></div>
+    <button id="assignBtn" class="primaryBtn">ASSEGNA</button>
+    <div id="assignPanel" hidden>
+      <input id="priceInput" type="number" min="1" inputmode="numeric" placeholder="Prezzo">
+      <select id="managerSelect"></select>
+      <button id="confirmAssign" class="primaryBtn">CONFERMA</button>
+    </div>
+  </article>
 </dialog>
+
+<dialog id="legendDialog">
+  <article class="modal">
+    <button class="closeBtn" onclick="legendDialog.close()">✕</button>
+    <h2>Legenda</h2>
+    <p class="muted"><strong>Per tutte le percentuali: più alto = meglio.</strong></p>
+    <div id="legendContent"></div>
+  </article>
+</dialog>
+
+<dialog id="auctionDialog">
+  <article class="modal">
+    <button class="closeBtn" onclick="auctionDialog.close()">✕</button>
+    <h2>Asta Live</h2>
+    <div id="auctionHistory"></div>
+    <button id="undoBtn" class="dangerBtn">↶ Annulla ultima assegnazione</button>
+  </article>
+</dialog>
+
 <script src="app.js"></script>
 </body>
 </html>
