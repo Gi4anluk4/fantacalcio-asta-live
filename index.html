@@ -1,34 +1,26 @@
 <!doctype html><html lang="it"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#111827"><title>Asta Live V3</title>
+<meta name="theme-color" content="#111827"><title>Asta Live V4</title>
 <link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="style.css"></head>
-<body>
-<header><div><b>⚽ ASTA LIVE</b><small>Fantacalcio 2026/27 · V3</small></div>
+<body><header><div><b>⚽ ASTA LIVE</b><small>Fantacalcio 2026/27 · V4</small></div>
 <div><button id="teamsBtn">👥</button><button id="settingsBtn">⚙️</button><button id="legendBtn">ⓘ</button></div></header>
-
 <main>
-<section class="summary"><div><small>BUDGET MIO</small><b id="budget"></b></div><div><small>ACQUISTI RUOLO</small><b id="roleCount"></b></div><div><small>F1 MIEI</small><b id="f1Count"></b></div></section>
+<section id="managerStrip" class="managerStrip"></section>
 <div class="searchWrap"><input id="search" placeholder="🔎 Cerca giocatore o squadra..."><div id="suggestions"></div></div>
 <div class="chips" id="statusFilters"><button data-status="free" class="on">LIBERI</button><button data-status="all">TUTTI</button><button data-status="sold">ASSEGNATI</button><button data-status="mine">MIEI</button></div>
-<div class="chips" id="viewFilters"><button data-view="tier" class="on">FASCE</button><button data-view="az">A–Z</button><button data-view="club">SQUADRA</button><button data-view="score">VALUTAZIONE</button></div>
-<button id="resetBtn" class="mini">↺ Reset filtri</button>
-<section id="playerList"></section>
-</main>
+<div class="chips" id="viewFilters"><button data-view="az" class="on">A–Z</button><button data-view="club">SQUADRA</button><button data-view="score">VALUTAZIONE</button></div>
+<div id="subFilters" class="subFilters"></div><button id="resetBtn" class="mini">↺ Reset filtri</button>
+<section id="playerList"></section></main>
+<nav><button data-role="P">P</button><button data-role="D" class="on">D</button><button data-role="C">C</button><button data-role="A">A</button><button id="auctionBtn" class="dangerNav">ANNULLA</button></nav>
 
-<nav><button data-role="P">P</button><button data-role="D" class="on">D</button><button data-role="C">C</button><button data-role="A">A</button><button id="auctionBtn">ASTA</button></nav>
-
-<dialog id="playerDialog"><article><button class="x" onclick="playerDialog.close()">✕</button><div id="detail"></div>
-<textarea id="personalNote" placeholder="Nota personale..."></textarea><button id="saveNote" class="secondary">SALVA NOTA</button>
-<button id="assignBtn" class="primary">ASSEGNA</button><div id="assignBox" hidden><input id="price" type="number" inputmode="numeric" placeholder="Prezzo"><select id="manager"></select><button id="confirmAssign" class="primary">CONFERMA</button></div></article></dialog>
+<dialog id="playerDialog"><article class="playerArticle"><button class="x" onclick="playerDialog.close()">✕</button><div id="detail"></div>
+<textarea id="personalNote" placeholder="Nota personale..."></textarea><button id="saveNote" class="secondary compactBtn">SALVA NOTA</button>
+<div class="assignSticky"><button id="assignBtn" class="primary">ASSEGNA</button><div id="assignBox" hidden>
+<div class="assignGrid"><input id="price" type="number" inputmode="numeric" placeholder="Prezzo"><select id="manager"></select></div>
+<button id="confirmAssign" class="primary">CONFERMA ASSEGNAZIONE</button></div></div></article></dialog>
 
 <dialog id="legendDialog"><article><button class="x" onclick="legendDialog.close()">✕</button><h2>Legenda</h2><div id="legend"></div></article></dialog>
-
-<dialog id="settingsDialog"><article><button class="x" onclick="settingsDialog.close()">✕</button><h2>Impostazioni asta</h2><p class="muted">Rinomina i 10 partecipanti. Il primo sei tu.</p><div id="managerInputs"></div>
-<button id="saveManagers" class="primary">SALVA PARTECIPANTI</button><hr><button id="exportBtn" class="secondary">ESPORTA BACKUP</button>
-<label class="importLabel">IMPORTA BACKUP<input id="importInput" type="file" accept=".json"></label>
-<button id="resetAuction" class="danger">AZZERA ASTA</button></article></dialog>
-
-<dialog id="teamsDialog"><article><button class="x" onclick="teamsDialog.close()">✕</button><h2>Squadre</h2><div id="teamsContent"></div></article></dialog>
-<dialog id="auctionDialog"><article><button class="x" onclick="auctionDialog.close()">✕</button><h2>Asta</h2><div id="history"></div><button id="undoBtn" class="danger">↶ ANNULLA ULTIMA ASSEGNAZIONE</button></article></dialog>
-
+<dialog id="settingsDialog"><article><button class="x" onclick="settingsDialog.close()">✕</button><h2>Impostazioni asta</h2><p class="muted">Rinomina i 10 partecipanti. Il primo sei tu.</p><div id="managerInputs"></div><button id="saveManagers" class="primary">SALVA PARTECIPANTI</button><hr><button id="exportBtn" class="secondary">ESPORTA BACKUP</button><label class="importLabel">IMPORTA BACKUP<input id="importInput" type="file" accept=".json"></label><button id="resetAuction" class="danger">AZZERA ASTA</button></article></dialog>
+<dialog id="teamsDialog"><article><button class="x" onclick="teamsDialog.close()">✕</button><h2>Squadre · per budget residuo</h2><div id="teamsContent"></div></article></dialog>
+<dialog id="auctionDialog"><article><button class="x" onclick="auctionDialog.close()">✕</button><h2>Annulla / elimina assegnazione</h2><p class="muted">Puoi eliminare qualsiasi assegnazione, non solo l'ultima.</p><div id="history"></div></article></dialog>
 <script src="data.js"></script><script src="app.js"></script></body></html>
