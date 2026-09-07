@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111827">
+<title>Fantacalcio Asta Live</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div><h1>Fantacalcio Asta Live</h1><p>Prototype mobile</p></div>
+  <button id="undoBtn" class="ghost">↶ Annulla</button>
+</header>
+<main>
+<section class="summary card">
+<div><span>Budget mio</span><strong id="myBudget">500</strong></div>
+<div><span>Ruolo</span><strong id="roleLabel">Difensori</strong></div>
+<div><span>Acquistati</span><strong id="myCount">0/8</strong></div>
+</section>
+<section class="toolbar card">
+<div class="role-tabs">
+<button data-role="P">P</button><button data-role="D" class="active">D</button>
+<button data-role="C">C</button><button data-role="A">A</button>
+</div>
+<input id="searchInput" type="search" placeholder="Cerca giocatore...">
+</section>
+<section id="marketPressure" class="pressure card"></section>
+<section id="playerList"></section>
+</main>
+<dialog id="playerDialog">
+<form method="dialog" class="modal card">
+<button class="close" value="cancel">✕</button>
+<div id="playerDetail"></div>
+<hr>
+<label>Prezzo<input id="priceInput" type="number" min="1" inputmode="numeric"></label>
+<label>Fantallenatore<select id="managerSelect"></select></label>
+<button id="assignBtn" type="button" class="primary">Assegna giocatore</button>
+</form>
+</dialog>
+<script src="app.js"></script>
+</body>
+</html>
