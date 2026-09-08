@@ -113,3 +113,7 @@ textarea,input,select{width:100%;margin-top:6px;padding:9px;border-radius:8px;bo
   .managerStrip{scroll-snap-type:x proximity}
   .managerChip{scroll-snap-align:start}
 }
+
+/* V5.5.0 — gestione leghe + spettatore */
+.accessBadge{font-size:10px;padding:5px 8px;border-radius:999px;background:#064e3b;border:1px solid #166534;color:#bbf7d0;white-space:nowrap}.accessBadge.readonly{background:#312e81;border-color:#4f46e5;color:#c7d2fe}.leagueManageBox{margin:10px 0;padding:10px;border:1px solid #334155;border-radius:12px;background:#0f172a}.leagueManageBox h3{margin:0 0 8px}.leagueManageBox input{width:100%;box-sizing:border-box;margin:5px 0 8px}.manageGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:8px 0}.viewer-mode #auctionBtn,.league-locked #auctionBtn{opacity:.4}.viewer-mode .assignSticky,.league-locked .assignSticky{display:none}.viewer-mode #personalNote,.league-locked #personalNote{opacity:.75}.savedLeague small{font-size:9px;color:#94a3b8;font-weight:500}.gateActions{grid-template-columns:1fr 1fr}.gateActions #createLeagueBtn{grid-column:1/-1}.gateMsg.ok{color:#86efac}
+@media(max-width:719px){.accessBadge{flex:0 0 auto;font-size:9px;padding:5px 7px}.manageGrid{grid-template-columns:1fr}.gateActions{grid-template-columns:1fr 1fr}.gateActions #createLeagueBtn{grid-column:1/-1}}
