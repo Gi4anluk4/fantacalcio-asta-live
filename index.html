@@ -1,8 +1,8 @@
 <!doctype html><html lang="it"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#111827"><title>Asta Live V4</title>
+<meta name="theme-color" content="#111827"><title>Asta Live V5</title>
 <link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="style.css"></head>
-<body><header><div><b>⚽ ASTA LIVE</b><small>Fantacalcio 2026/27 · V4</small></div>
+<body><header><div><b>⚽ ASTA LIVE</b><small>Fantacalcio 2026/27 · V5</small></div>
 <div><button id="teamsBtn">👥</button><button id="settingsBtn">⚙️</button><button id="legendBtn">ⓘ</button></div></header>
 <main>
 <section id="managerStrip" class="managerStrip"></section>
@@ -17,7 +17,7 @@
 <textarea id="personalNote" placeholder="Nota personale..."></textarea><button id="saveNote" class="secondary compactBtn">SALVA NOTA</button>
 <div class="assignSticky"><button id="assignBtn" class="primary">ASSEGNA</button><div id="assignBox" hidden>
 <div class="assignGrid"><input id="price" type="number" inputmode="numeric" placeholder="Prezzo"><select id="manager"></select></div>
-<button id="confirmAssign" class="primary">CONFERMA ASSEGNAZIONE</button></div></div></article></dialog>
+<button id="confirmAssign" class="primary">CONFERMA ASSEGNAZIONE</button><button id="cancelAssign" class="secondary compactBtn">ANNULLA</button></div></div></article></dialog>
 
 <dialog id="legendDialog"><article><button class="x" onclick="legendDialog.close()">✕</button><h2>Legenda</h2><div id="legend"></div></article></dialog>
 <dialog id="settingsDialog"><article><button class="x" onclick="settingsDialog.close()">✕</button><h2>Impostazioni asta</h2><p class="muted">Rinomina i 10 partecipanti. Il primo sei tu.</p><div id="managerInputs"></div><button id="saveManagers" class="primary">SALVA PARTECIPANTI</button><hr><button id="exportBtn" class="secondary">ESPORTA BACKUP</button><label class="importLabel">IMPORTA BACKUP<input id="importInput" type="file" accept=".json"></label><button id="resetAuction" class="danger">AZZERA ASTA</button></article></dialog>
