@@ -18,16 +18,18 @@ function renderSaved(){const box=$('savedLeagues');if(!box)return;const a=saved(
 function showGate(msg=''){ $('leagueGate').hidden=false;$('leagueGateMsg').textContent=msg;$('leagueBadge').hidden=true;$('leaveLeagueBtn').hidden=true; }
 function hideGate(name){$('leagueGate').hidden=true;$('leagueBadge').textContent='🏆 '+name;$('leagueBadge').hidden=false;$('leaveLeagueBtn').hidden=false}
 async function grantEditor(roomId,proof){const u=auth.currentUser;if(!u)throw new Error('auth-not-ready');await set(ref(db,`roomAccess/${roomId}/${u.uid}`),{role:'editor',joinedAt:Date.now(),proof})}
-async function connectKnown(name,roomId){if(!authReady)return showGate('Firebase si sta collegando… riprova tra un secondo.');if(unsub){unsub();unsub=null}current={name,roomId,role:'editor'};stateRef=ref(db,`rooms/${roomId}/state`);status('☁️ Collegamento…','warn');try{const snap=await get(stateRef);if(!snap.exists())return showGate('Asta non trovata oppure questo dispositivo non è più autorizzato. Inserisci nuovamente nome lega e password.');hideGate(name);remember(name,roomId);window.ASTA_CLOUD.ready=true;applying=true;window.dispatchEvent(new CustomEvent('asta-cloud-state',{detail:snap.val()}));applying=false;unsub=onValue(stateRef,s=>{if(!s.exists())return;applying=true;window.dispatchEvent(new CustomEvent('asta-cloud-state',{detail:s.val()}));setTimeout(()=>applying=false,0)});status('☁️ Sincronizzato','ok')}catch(e){console.error(e);showGate('Per entrare di nuovo inserisci nome lega e password.');status('🔐 Accesso richiesto','warn')}}
-function localStateSnapshot(){
-  try{
-    const fromBridge=window.ASTA_CLOUD?.getLocalState?.();
-    if(fromBridge?.assignments&&fromBridge?.managers)return fromBridge;
-  }catch(e){console.warn('Bridge stato locale non disponibile',e)}
-  try{
-    const raw=localStorage.getItem('astaLiveV5')||localStorage.getItem('astaLiveV4')||localStorage.getItem('astaLiveV3');
-    if(raw){const obj=JSON.parse(raw);if(obj?.assignments&&obj?.managers)return obj}
-  }catch(e){console.warn('Fallback localStorage non disponibile',e)}
+async function connectKnown(name,roomId){if(!authReady)return showGate('Firebase si sta collegando… riprova tra un secondo.');if(unsub){unsub();unsub=null}current={name,roomId,role:'editor'};stateRef=ref(db,`rooms/${roomId}/state`);status('☁️ Collegamento…','warn');try{const snap=await get(stateRef);if(!snap.exists())return showGate('Asta non trovata oppure questo dispositivo non è più autorizzato. Inserisci nuovamente nome lega e password.');hideGate(name);remember(name,roomId);
+    // Lo stato Firebase della lega è sempre autorevole. Lo salviamo localmente PRIMA di abilitare qualsiasi push.
+    const remote=snap.val();
+    try{localStorage.setItem('astaLiveV5',JSON.stringify(remote))}catch(_){ }
+    applying=true;
+    window.dispatchEvent(new CustomEvent('asta-cloud-state',{detail:remote}));
+    applying=false;
+    window.ASTA_CLOUD.ready=true;
+    unsub=onValue(stateRef,s=>{if(!s.exists())return;const next=s.val();try{localStorage.setItem('astaLiveV5',JSON.stringify(next))}catch(_){ }applying=true;window.dispatchEvent(new CustomEvent('asta-cloud-state',{detail:next}));setTimeout(()=>applying=false,0)});
+    status('☁️ Sincronizzato','ok')}catch(e){console.error(e);showGate('Per entrare di nuovo inserisci nome lega e password.');status('🔐 Accesso richiesto','warn')}}
+function cleanAuctionState(){
+  // Una NUOVA asta deve sempre partire pulita: mai ereditare rose, nomi o crediti dal localStorage del dispositivo.
   return {assignments:[],role:'D',status:'free',view:'az',managers:['IO','Team 2','Team 3','Team 4','Team 5','Team 6','Team 7','Team 8','Team 9','Team 10'],notes:{},sub:null,deviceMode:'auto'};
 }
 function errCode(e){return String(e?.code||e?.message||e||'errore').replace('PERMISSION_DENIED: ','').replace('auth/','')}
@@ -58,7 +60,7 @@ async function createLeague(name,password){
   try{existing=await get(roomRef)}catch(e){throw {stage:'STEP 3 rooms/read',code:errCode(e),raw:e}}
   if(!existing.exists()){
     gateDiag('STEP 4/4','Creo lo stato iniziale dell’asta…');
-    const initial=localStateSnapshot(),now=Date.now();
+    const initial=cleanAuctionState(),now=Date.now();
     try{await set(roomRef,{meta:{name,createdAt:now,updatedAt:now},state:{...initial,_leagueName:name,_createdAt:now,_cloudUpdated:now}})}catch(e){throw {stage:'STEP 4 rooms/write',code:errCode(e),raw:e}}
   }
   gateDiag('STEP 4/4','Asta pronta ✓',true);
