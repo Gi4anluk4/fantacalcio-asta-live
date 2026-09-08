@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 import { getDatabase, ref, onValue, set, get } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
-const firebaseConfig={apiKey:"AIzaSyClMJs-dz1d4QS5Hn2dea5poaTWBZJqCU",authDomain:"fantacalcio-asta-live-5ccfb.firebaseapp.com",databaseURL:"https://fantacalcio-asta-live-5ccfb-default-rtdb.europe-west1.firebasedatabase.app",projectId:"fantacalcio-asta-live-5ccfb",storageBucket:"fantacalcio-asta-live-5ccfb.firebasestorage.app",messagingSenderId:"954983410799",appId:"1:954983410799:web:a3df7f79696e91e355319a"};
+const firebaseConfig={apiKey:"AIzaSyClMJsr-dz1d4QS5Hn2dea5poaTWBZJqCU",authDomain:"fantacalcio-asta-live-5ccfb.firebaseapp.com",databaseURL:"https://fantacalcio-asta-live-5ccfb-default-rtdb.europe-west1.firebasedatabase.app",projectId:"fantacalcio-asta-live-5ccfb",storageBucket:"fantacalcio-asta-live-5ccfb.firebasestorage.app",messagingSenderId:"954983410799",appId:"1:954983410799:web:a3df7f79696e91e355319a"};
 const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getDatabase(app);let applying=false,ready=false;
 const status=(txt,cls='')=>{const e=document.getElementById('cloudStatus');if(e){e.textContent=txt;e.className='cloudPill '+cls}const i=document.getElementById('syncInfo');if(i)i.textContent=txt};
 const room='asta2026';const stateRef=ref(db,`rooms/${room}/state`);
