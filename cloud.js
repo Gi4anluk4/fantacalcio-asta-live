@@ -21,16 +21,15 @@ async function grantEditor(roomId,proof){const u=auth.currentUser;if(!u)throw ne
 async function connectKnown(name,roomId){if(!authReady)return showGate('Firebase si sta collegando… riprova tra un secondo.');if(unsub){unsub();unsub=null}current={name,roomId,role:'editor'};stateRef=ref(db,`rooms/${roomId}/state`);status('☁️ Collegamento…','warn');try{const snap=await get(stateRef);if(!snap.exists())return showGate('Asta non trovata oppure questo dispositivo non è più autorizzato. Inserisci nuovamente nome lega e password.');hideGate(name);remember(name,roomId);
     // Lo stato Firebase della lega è sempre autorevole. Lo salviamo localmente PRIMA di abilitare qualsiasi push.
     const remote=snap.val();
-    try{localStorage.setItem('astaLiveV5',JSON.stringify(remote))}catch(_){ }
     applying=true;
     window.dispatchEvent(new CustomEvent('asta-cloud-state',{detail:remote}));
     applying=false;
     window.ASTA_CLOUD.ready=true;
-    unsub=onValue(stateRef,s=>{if(!s.exists())return;const next=s.val();try{localStorage.setItem('astaLiveV5',JSON.stringify(next))}catch(_){ }applying=true;window.dispatchEvent(new CustomEvent('asta-cloud-state',{detail:next}));setTimeout(()=>applying=false,0)});
+    unsub=onValue(stateRef,s=>{if(!s.exists())return;const next=s.val();applying=true;window.dispatchEvent(new CustomEvent('asta-cloud-state',{detail:next}));setTimeout(()=>applying=false,0)});
     status('☁️ Sincronizzato','ok')}catch(e){console.error(e);showGate('Per entrare di nuovo inserisci nome lega e password.');status('🔐 Accesso richiesto','warn')}}
 function cleanAuctionState(){
   // Una NUOVA asta deve sempre partire pulita: mai ereditare rose, nomi o crediti dal localStorage del dispositivo.
-  return {assignments:[],role:'D',status:'free',view:'az',managers:['IO','Team 2','Team 3','Team 4','Team 5','Team 6','Team 7','Team 8','Team 9','Team 10'],notes:{},sub:null,deviceMode:'auto'};
+  return {assignments:[],managers:['IO','Team 2','Team 3','Team 4','Team 5','Team 6','Team 7','Team 8','Team 9','Team 10'],notes:{}};
 }
 function errCode(e){return String(e?.code||e?.message||e||'errore').replace('PERMISSION_DENIED: ','').replace('auth/','')}
 function gateDiag(step,msg,ok=false){
@@ -93,7 +92,7 @@ async function enter(create){
     status('🔎 Diagnostica Firebase','warn');
   }
 }
-window.ASTA_CLOUD={ready:false,getLocalState:window.ASTA_GET_LOCAL_STATE||null,push:async state=>{if(!stateRef||!window.ASTA_CLOUD.ready||applying)return;try{await set(stateRef,{...state,_leagueName:current?.name||'',_cloudUpdated:Date.now()});if(current?.roomId)await set(ref(db,`rooms/${current.roomId}/meta/updatedAt`),Date.now());status('☁️ Sincronizzato','ok')}catch(e){console.error(e);status('⚠️ Sync fallita','err')}},openGate:()=>showGate(),current:()=>current};
+window.ASTA_CLOUD={ready:false,getLocalState:window.ASTA_GET_LOCAL_STATE||null,push:async state=>{if(!stateRef||!window.ASTA_CLOUD.ready||applying)return;try{const shared={assignments:Array.isArray(state?.assignments)?state.assignments:[],managers:Array.isArray(state?.managers)&&state.managers.length===10?state.managers:['IO','Team 2','Team 3','Team 4','Team 5','Team 6','Team 7','Team 8','Team 9','Team 10'],notes:state?.notes&&typeof state.notes==='object'?state.notes:{}};await set(stateRef,{...shared,_leagueName:current?.name||'',_cloudUpdated:Date.now()});if(current?.roomId)await set(ref(db,`rooms/${current.roomId}/meta/updatedAt`),Date.now());status('☁️ Sincronizzato','ok')}catch(e){console.error(e);status('⚠️ Sync fallita','err')}},openGate:()=>showGate(),current:()=>current};
 window.dispatchEvent(new Event('asta-cloud-ready'));
 $('joinLeagueBtn').onclick=()=>enter(false);$('createLeagueBtn').onclick=()=>enter(true);$('leaveLeagueBtn').onclick=()=>{window.ASTA_CLOUD.ready=false;current=null;stateRef=null;if(unsub){unsub();unsub=null}showGate()};
 renderSaved();status('☁️ Autenticazione…','warn');

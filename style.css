@@ -48,3 +48,48 @@ textarea,input,select{width:100%;margin-top:6px;padding:9px;border-radius:8px;bo
 #leagueGate{position:fixed;inset:0;z-index:9999;background:#0b1220;display:flex;align-items:center;justify-content:center;padding:20px}#leagueGate[hidden]{display:none}.gateCard{width:min(520px,100%);background:#111827;border:1px solid #263247;border-radius:20px;padding:24px;box-shadow:0 24px 70px #0008}.gateCard h1{margin:0 0 6px}.gateCard p{color:#9ca3af}.gateCard input{width:100%;box-sizing:border-box;margin:7px 0;padding:14px;border-radius:12px;border:1px solid #374151;background:#0f172a;color:#fff;font-size:16px}.gateActions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.gateMsg{min-height:22px;margin-top:10px;font-size:13px}.leagueBar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.leagueName{font-size:12px;padding:5px 9px;border:1px solid #334155;border-radius:999px}.logoutLeague{padding:5px 9px;font-size:11px}.savedLeagues{margin-top:18px;border-top:1px solid #263247;padding-top:14px}.savedLeague{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #1f2937}.savedLeague button{width:auto;padding:8px 10px}.cloudPill.ok{border-color:#166534;color:#86efac}
 
 .gateVersion{font-size:.38em;font-weight:800;vertical-align:middle;opacity:.7;margin-left:.35rem;letter-spacing:.04em}
+
+/* V5.4.5 — mobile pulito + separazione UI locale / stato asta cloud */
+.headActions{display:flex;align-items:center;gap:5px;min-width:0}
+.brandBlock{flex:0 0 auto;min-width:112px}
+.brandBlock b{white-space:nowrap}
+@media (max-width:719px){
+  body{padding-bottom:66px}
+  header{height:auto;min-height:88px;padding:7px 10px 8px;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:5px}
+  .brandBlock{min-width:0;display:flex;align-items:baseline;gap:8px}
+  .brandBlock b{font-size:19px;line-height:1;white-space:nowrap}
+  .brandBlock small{font-size:9px;white-space:nowrap}
+  .headActions{width:100%;gap:4px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;padding:1px 0 2px}
+  .headActions::-webkit-scrollbar{display:none}
+  .leagueName{flex:0 0 auto;max-width:145px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px;padding:5px 8px}
+  .logoutLeague{flex:0 0 auto;font-size:0!important;padding:5px 7px!important}
+  .logoutLeague::after{content:"CAMBIA";font-size:10px;font-weight:800}
+  .cloudPill{flex:0 0 auto;max-width:none;font-size:10px;padding:5px 8px}
+  header .headActions>button:not(.logoutLeague){flex:0 0 auto;font-size:17px;padding:3px 5px}
+  main{max-width:none;padding:7px 7px 10px}
+  .managerStrip{gap:6px;padding:2px 0 4px}
+  .managerChip{min-width:104px;padding:7px 8px;border-radius:10px}
+  .managerChip b{font-size:10px;max-width:92px}
+  .managerChip span{font-size:12px}
+  .managerChip small{font-size:8px}
+  .searchWrap{margin-top:7px}
+  #search{padding:12px 11px;font-size:13px;border-radius:11px}
+  .chips,.subFilters{gap:5px;margin-top:6px}
+  .chips button,.mini,.subFilters button{padding:8px 9px;font-size:9px;border-radius:8px}
+  .mini{margin-top:6px}
+  .group{margin:13px 4px 6px;font-size:11px}
+  .row{grid-template-columns:62px minmax(0,1fr) auto;min-height:58px;border-radius:9px;margin-bottom:4px;gap:7px}
+  .tierBadge{font-size:9px;padding:5px 4px}
+  .nm{padding:8px 0}
+  .nm b{font-size:14px}
+  .nm small,.rt small{font-size:8px}
+  .rt{padding:7px 7px 6px 0;min-width:104px}
+  .rt b{font-size:18px}
+  nav{height:60px;padding-bottom:env(safe-area-inset-bottom)}
+  nav button{font-size:12px}
+  dialog{width:min(97vw,560px)}
+  article{max-height:88vh}
+  .gateCard{padding:20px 18px;border-radius:17px}
+  .gateCard h1{font-size:26px}
+  .gateActions{grid-template-columns:1fr;gap:7px}
+}
