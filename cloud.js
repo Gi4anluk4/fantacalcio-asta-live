@@ -30,28 +30,67 @@ function localStateSnapshot(){
   }catch(e){console.warn('Fallback localStorage non disponibile',e)}
   return {assignments:[],role:'D',status:'free',view:'az',managers:['IO','Team 2','Team 3','Team 4','Team 5','Team 6','Team 7','Team 8','Team 9','Team 10'],notes:{},sub:null,deviceMode:'auto'};
 }
-async function createLeague(name,password){const roomId=await roomIdFor(name),proof=await adminProof(roomId,password),u=auth.currentUser;if(!u)throw new Error('auth-not-ready');
+function errCode(e){return String(e?.code||e?.message||e||'errore').replace('PERMISSION_DENIED: ','').replace('auth/','')}
+function gateDiag(step,msg,ok=false){
+  const el=$('leagueGateMsg'); if(!el)return;
+  el.innerHTML=`<b>${escapeHtml(step)}</b> — ${escapeHtml(msg)}`;
+  el.className=ok?'gateMsg ok':'gateMsg';
+}
+async function createLeague(name,password){
+  const roomId=await roomIdFor(name),proof=await adminProof(roomId,password),u=auth.currentUser;
+  if(!u)throw {stage:'AUTH',code:'auth-not-ready'};
   const secretRef=ref(db,`roomSecrets/${roomId}`);
+  gateDiag('STEP 1/4','Creo/verifico la lega…');
   try{
-    // Il segreto non è leggibile dai client. Può essere creato una sola volta.
     await set(secretRef,{ownerUid:u.uid,adminHash:proof,createdAt:Date.now()});
+    gateDiag('STEP 1/4','Segreto lega creato ✓',true);
   }catch(e){
-    // Recupero automatico: se una precedente creazione si è fermata a metà,
-    // la stessa password può riottenere l'accesso e completare l'asta.
-    if(!String(e?.code||'').includes('permission-denied'))throw e;
+    if(!String(e?.code||'').includes('permission-denied'))throw {stage:'STEP 1 roomSecrets',code:errCode(e),raw:e};
+    // Può essere una lega già esistente oppure un tentativo precedente parziale.
+    gateDiag('STEP 1/4','Lega già esistente o scrittura iniziale negata: provo l’accesso…');
   }
-  await grantEditor(roomId,proof);
-  const roomRef=ref(db,`rooms/${roomId}`),existing=await get(roomRef);
+  gateDiag('STEP 2/4','Autorizzo questo dispositivo…');
+  try{await grantEditor(roomId,proof)}catch(e){throw {stage:'STEP 2 roomAccess',code:errCode(e),raw:e}}
+  gateDiag('STEP 2/4','Dispositivo autorizzato ✓',true);
+  const roomRef=ref(db,`rooms/${roomId}`);
+  gateDiag('STEP 3/4','Controllo lo stato dell’asta…');
+  let existing;
+  try{existing=await get(roomRef)}catch(e){throw {stage:'STEP 3 rooms/read',code:errCode(e),raw:e}}
   if(!existing.exists()){
+    gateDiag('STEP 4/4','Creo lo stato iniziale dell’asta…');
     const initial=localStateSnapshot(),now=Date.now();
-    await set(roomRef,{meta:{name,createdAt:now,updatedAt:now},state:{...initial,_leagueName:name,_createdAt:now,_cloudUpdated:now}});
+    try{await set(roomRef,{meta:{name,createdAt:now,updatedAt:now},state:{...initial,_leagueName:name,_createdAt:now,_cloudUpdated:now}})}catch(e){throw {stage:'STEP 4 rooms/write',code:errCode(e),raw:e}}
   }
+  gateDiag('STEP 4/4','Asta pronta ✓',true);
   return roomId;
 }
-async function joinLeague(name,password){const roomId=await roomIdFor(name),proof=await adminProof(roomId,password);await grantEditor(roomId,proof);return roomId}
-async function enter(create){const name=$('leagueNameInput').value.trim(),pass=$('leaguePasswordInput').value;if(name.length<3||pass.length<8)return $('leagueGateMsg').textContent='Usa un nome lega di almeno 3 caratteri e una password di almeno 8 caratteri.';if(!authReady)return $('leagueGateMsg').textContent='Firebase si sta collegando…';$('leagueGateMsg').textContent=create?'Creazione asta…':'Verifica accesso…';try{let roomId;if(create){try{roomId=await createLeague(name,pass)}catch(e){console.error(e);if(String(e?.code||'').includes('permission-denied'))return $('leagueGateMsg').textContent='Questo nome lega è già utilizzato. Se è la tua asta usa ENTRA; altrimenti scegli un nome diverso.';throw e}}else{try{roomId=await joinLeague(name,pass)}catch(e){console.error(e);if(String(e?.code||'').includes('permission-denied'))return $('leagueGateMsg').textContent='Nome lega o password non corretti.';throw e}}
-    $('leaguePasswordInput').value='';await connectKnown(name,roomId)
-  }catch(e){console.error(e);$('leagueGateMsg').textContent='Firebase non consente ancora questa operazione. Verifica le regole del database.';status('🔒 Regole da aggiornare','warn')}}
+async function joinLeague(name,password){
+  const roomId=await roomIdFor(name),proof=await adminProof(roomId,password);
+  gateDiag('ACCESSO 1/2','Verifico password e autorizzo il dispositivo…');
+  try{await grantEditor(roomId,proof)}catch(e){throw {stage:'ACCESSO roomAccess',code:errCode(e),raw:e}}
+  gateDiag('ACCESSO 2/2','Accesso autorizzato ✓',true);
+  return roomId;
+}
+async function enter(create){
+  const name=$('leagueNameInput').value.trim(),pass=$('leaguePasswordInput').value;
+  if(name.length<3||pass.length<8)return gateDiag('DATI','Usa un nome lega di almeno 3 caratteri e una password di almeno 8 caratteri.');
+  if(!authReady)return gateDiag('FIREBASE','Firebase si sta collegando…');
+  gateDiag(create?'CREAZIONE':'ACCESSO',create?'Avvio creazione asta…':'Verifico accesso…');
+  try{
+    const roomId=create?await createLeague(name,pass):await joinLeague(name,pass);
+    $('leaguePasswordInput').value='';
+    await connectKnown(name,roomId);
+  }catch(e){
+    console.error('ASTA CLOUD DIAGNOSTICA',e.stage,e.code,e.raw||e);
+    const code=errCode(e.code||e);
+    if(e.stage==='STEP 2 roomAccess' || e.stage==='ACCESSO roomAccess'){
+      gateDiag(e.stage,`Firebase ha negato l’autorizzazione (${code}). Se la lega esiste, può indicare password errata oppure una regola roomAccess da correggere.`);
+    }else{
+      gateDiag(e.stage||'ERRORE',`Firebase ha rifiutato questo passaggio (${code}).`);
+    }
+    status('🔎 Diagnostica Firebase','warn');
+  }
+}
 window.ASTA_CLOUD={ready:false,getLocalState:window.ASTA_GET_LOCAL_STATE||null,push:async state=>{if(!stateRef||!window.ASTA_CLOUD.ready||applying)return;try{await set(stateRef,{...state,_leagueName:current?.name||'',_cloudUpdated:Date.now()});if(current?.roomId)await set(ref(db,`rooms/${current.roomId}/meta/updatedAt`),Date.now());status('☁️ Sincronizzato','ok')}catch(e){console.error(e);status('⚠️ Sync fallita','err')}},openGate:()=>showGate(),current:()=>current};
 window.dispatchEvent(new Event('asta-cloud-ready'));
 $('joinLeagueBtn').onclick=()=>enter(false);$('createLeagueBtn').onclick=()=>enter(true);$('leaveLeagueBtn').onclick=()=>{window.ASTA_CLOUD.ready=false;current=null;stateRef=null;if(unsub){unsub();unsub=null}showGate()};
