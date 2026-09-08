@@ -19,19 +19,41 @@ function showGate(msg=''){ $('leagueGate').hidden=false;$('leagueGateMsg').textC
 function hideGate(name){$('leagueGate').hidden=true;$('leagueBadge').textContent='🏆 '+name;$('leagueBadge').hidden=false;$('leaveLeagueBtn').hidden=false}
 async function grantEditor(roomId,proof){const u=auth.currentUser;if(!u)throw new Error('auth-not-ready');await set(ref(db,`roomAccess/${roomId}/${u.uid}`),{role:'editor',joinedAt:Date.now(),proof})}
 async function connectKnown(name,roomId){if(!authReady)return showGate('Firebase si sta collegando… riprova tra un secondo.');if(unsub){unsub();unsub=null}current={name,roomId,role:'editor'};stateRef=ref(db,`rooms/${roomId}/state`);status('☁️ Collegamento…','warn');try{const snap=await get(stateRef);if(!snap.exists())return showGate('Asta non trovata oppure questo dispositivo non è più autorizzato. Inserisci nuovamente nome lega e password.');hideGate(name);remember(name,roomId);window.ASTA_CLOUD.ready=true;applying=true;window.dispatchEvent(new CustomEvent('asta-cloud-state',{detail:snap.val()}));applying=false;unsub=onValue(stateRef,s=>{if(!s.exists())return;applying=true;window.dispatchEvent(new CustomEvent('asta-cloud-state',{detail:s.val()}));setTimeout(()=>applying=false,0)});status('☁️ Sincronizzato','ok')}catch(e){console.error(e);showGate('Per entrare di nuovo inserisci nome lega e password.');status('🔐 Accesso richiesto','warn')}}
+function localStateSnapshot(){
+  try{
+    const fromBridge=window.ASTA_CLOUD?.getLocalState?.();
+    if(fromBridge?.assignments&&fromBridge?.managers)return fromBridge;
+  }catch(e){console.warn('Bridge stato locale non disponibile',e)}
+  try{
+    const raw=localStorage.getItem('astaLiveV5')||localStorage.getItem('astaLiveV4')||localStorage.getItem('astaLiveV3');
+    if(raw){const obj=JSON.parse(raw);if(obj?.assignments&&obj?.managers)return obj}
+  }catch(e){console.warn('Fallback localStorage non disponibile',e)}
+  return {assignments:[],role:'D',status:'free',view:'az',managers:['IO','Team 2','Team 3','Team 4','Team 5','Team 6','Team 7','Team 8','Team 9','Team 10'],notes:{},sub:null,deviceMode:'auto'};
+}
 async function createLeague(name,password){const roomId=await roomIdFor(name),proof=await adminProof(roomId,password),u=auth.currentUser;if(!u)throw new Error('auth-not-ready');
-  // Il segreto non è leggibile dai client. Può essere creato una sola volta.
-  await set(ref(db,`roomSecrets/${roomId}`),{ownerUid:u.uid,adminHash:proof,createdAt:Date.now()});
+  const secretRef=ref(db,`roomSecrets/${roomId}`);
+  try{
+    // Il segreto non è leggibile dai client. Può essere creato una sola volta.
+    await set(secretRef,{ownerUid:u.uid,adminHash:proof,createdAt:Date.now()});
+  }catch(e){
+    // Recupero automatico: se una precedente creazione si è fermata a metà,
+    // la stessa password può riottenere l'accesso e completare l'asta.
+    if(!String(e?.code||'').includes('permission-denied'))throw e;
+  }
   await grantEditor(roomId,proof);
-  const initial=window.ASTA_CLOUD.getLocalState?.();if(!initial)throw new Error('app-not-ready');
-  await set(ref(db,`rooms/${roomId}`),{meta:{name,createdAt:Date.now(),updatedAt:Date.now()},state:{...initial,_leagueName:name,_createdAt:Date.now(),_cloudUpdated:Date.now()}});
+  const roomRef=ref(db,`rooms/${roomId}`),existing=await get(roomRef);
+  if(!existing.exists()){
+    const initial=localStateSnapshot(),now=Date.now();
+    await set(roomRef,{meta:{name,createdAt:now,updatedAt:now},state:{...initial,_leagueName:name,_createdAt:now,_cloudUpdated:now}});
+  }
   return roomId;
 }
 async function joinLeague(name,password){const roomId=await roomIdFor(name),proof=await adminProof(roomId,password);await grantEditor(roomId,proof);return roomId}
 async function enter(create){const name=$('leagueNameInput').value.trim(),pass=$('leaguePasswordInput').value;if(name.length<3||pass.length<8)return $('leagueGateMsg').textContent='Usa un nome lega di almeno 3 caratteri e una password di almeno 8 caratteri.';if(!authReady)return $('leagueGateMsg').textContent='Firebase si sta collegando…';$('leagueGateMsg').textContent=create?'Creazione asta…':'Verifica accesso…';try{let roomId;if(create){try{roomId=await createLeague(name,pass)}catch(e){console.error(e);if(String(e?.code||'').includes('permission-denied'))return $('leagueGateMsg').textContent='Questo nome lega è già utilizzato. Se è la tua asta usa ENTRA; altrimenti scegli un nome diverso.';throw e}}else{try{roomId=await joinLeague(name,pass)}catch(e){console.error(e);if(String(e?.code||'').includes('permission-denied'))return $('leagueGateMsg').textContent='Nome lega o password non corretti.';throw e}}
     $('leaguePasswordInput').value='';await connectKnown(name,roomId)
   }catch(e){console.error(e);$('leagueGateMsg').textContent='Firebase non consente ancora questa operazione. Verifica le regole del database.';status('🔒 Regole da aggiornare','warn')}}
-window.ASTA_CLOUD={ready:false,getLocalState:null,push:async state=>{if(!stateRef||!window.ASTA_CLOUD.ready||applying)return;try{await set(stateRef,{...state,_leagueName:current?.name||'',_cloudUpdated:Date.now()});if(current?.roomId)await set(ref(db,`rooms/${current.roomId}/meta/updatedAt`),Date.now());status('☁️ Sincronizzato','ok')}catch(e){console.error(e);status('⚠️ Sync fallita','err')}},openGate:()=>showGate(),current:()=>current};
+window.ASTA_CLOUD={ready:false,getLocalState:window.ASTA_GET_LOCAL_STATE||null,push:async state=>{if(!stateRef||!window.ASTA_CLOUD.ready||applying)return;try{await set(stateRef,{...state,_leagueName:current?.name||'',_cloudUpdated:Date.now()});if(current?.roomId)await set(ref(db,`rooms/${current.roomId}/meta/updatedAt`),Date.now());status('☁️ Sincronizzato','ok')}catch(e){console.error(e);status('⚠️ Sync fallita','err')}},openGate:()=>showGate(),current:()=>current};
+window.dispatchEvent(new Event('asta-cloud-ready'));
 $('joinLeagueBtn').onclick=()=>enter(false);$('createLeagueBtn').onclick=()=>enter(true);$('leaveLeagueBtn').onclick=()=>{window.ASTA_CLOUD.ready=false;current=null;stateRef=null;if(unsub){unsub();unsub=null}showGate()};
 renderSaved();status('☁️ Autenticazione…','warn');
 signInAnonymously(auth).catch(e=>{console.error(e);status('⚠️ Auth: '+((e&&e.code)||'errore').replace('auth/',''),'err');showGate('Errore autenticazione Firebase.')});
