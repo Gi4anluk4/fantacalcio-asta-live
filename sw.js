@@ -1,4 +1,4 @@
-const CACHE='asta-live-v5-4-20260908-1';
+const CACHE='asta-live-v5-4-1-20260908-1';
 const ASSETS=['./','./index.html','./style.css','./data.js','./app.js','./cloud.js','./manifest.webmanifest'];
 self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)))});
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
