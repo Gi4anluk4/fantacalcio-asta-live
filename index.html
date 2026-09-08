@@ -1,9 +1,9 @@
 <!doctype html><html lang="it"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#111827"><title>Asta Live V5.2</title>
+<meta name="theme-color" content="#111827"><title>Asta Live V5.3</title>
 <link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="style.css"></head>
-<body><header><div><b>⚽ ASTA LIVE</b><small>Fantacalcio 2026/27 · V5.2</small></div>
-<div><button id="teamsBtn">👥</button><button id="settingsBtn">⚙️</button><button id="legendBtn">ⓘ</button></div></header>
+<body><header><div><b>⚽ ASTA LIVE</b><small>Fantacalcio 2026/27 · V5.3</small></div>
+<div class="headActions"><span id="cloudStatus" class="cloudPill">☁️ Avvio…</span><button id="teamsBtn">👥</button><button id="settingsBtn">⚙️</button><button id="legendBtn">ⓘ</button></div></header>
 <main>
 <section id="managerStrip" class="managerStrip"></section>
 <div class="searchWrap"><input id="search" placeholder="🔎 Cerca giocatore o squadra..."><div id="suggestions"></div></div>
@@ -20,7 +20,7 @@
 <button id="confirmAssign" class="primary">CONFERMA ASSEGNAZIONE</button><button id="cancelAssign" class="secondary compactBtn">ANNULLA</button></div></div></article></dialog>
 
 <dialog id="legendDialog"><article><button class="x" onclick="this.closest('dialog').close()">✕</button><h2>Legenda</h2><div id="legend"></div></article></dialog>
-<dialog id="settingsDialog"><article><button class="x" onclick="this.closest('dialog').close()">✕</button><h2>Impostazioni asta</h2><p class="muted">Rinomina i 10 partecipanti. Il primo sei tu.</p><div id="managerInputs"></div><button id="saveManagers" class="primary">SALVA PARTECIPANTI</button><hr><button id="exportBtn" class="secondary">ESPORTA BACKUP</button><label class="importLabel">IMPORTA BACKUP<input id="importInput" type="file" accept=".json"></label><button id="resetAuction" class="danger">AZZERA ASTA</button></article></dialog>
+<dialog id="settingsDialog"><article><button class="x" onclick="this.closest('dialog').close()">✕</button><h2>Impostazioni asta</h2><p class="muted">Rinomina i 10 partecipanti. Il primo sei tu.</p><h3>Visualizzazione</h3><div id="viewModeBox" class="viewModeBox"><button data-device="auto">AUTOMATICA</button><button data-device="mobile">MOBILE</button><button data-device="tablet">TABLET</button><button data-device="desktop">DESKTOP</button></div><div id="syncInfo" class="syncInfo">☁️ Sincronizzazione Firebase in preparazione…</div><hr><div id="managerInputs"></div><button id="saveManagers" class="primary">SALVA PARTECIPANTI</button><hr><button id="exportBtn" class="secondary">ESPORTA BACKUP</button><label class="importLabel">IMPORTA BACKUP<input id="importInput" type="file" accept=".json"></label><button id="resetAuction" class="danger">AZZERA ASTA</button></article></dialog>
 <dialog id="teamsDialog"><article><button class="x" onclick="this.closest('dialog').close()">✕</button><h2>Squadre · per budget residuo</h2><div id="teamsContent"></div></article></dialog>
 <div id="auctionSheet" class="sheetBackdrop" hidden><section class="sheetPanel" role="dialog" aria-modal="true" aria-labelledby="auctionTitle"><button id="closeAuctionSheet" class="x" type="button" aria-label="Chiudi">✕</button><h2 id="auctionTitle">Annulla / elimina assegnazione</h2><p class="muted">Puoi eliminare qualsiasi assegnazione, non solo l'ultima.</p><div id="history"></div></section></div>
-<script src="data.js"></script><script src="app.js"></script></body></html>
+<script src="data.js"></script><script type="module" src="cloud.js"></script><script src="app.js"></script></body></html>

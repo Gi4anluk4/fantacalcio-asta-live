@@ -1,0 +1,10 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+import { getDatabase, ref, onValue, set, get } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
+const firebaseConfig={apiKey:"AIzaSyClMJs-dz1d4QS5Hn2dea5poaTWBZJqCU",authDomain:"fantacalcio-asta-live-5ccfb.firebaseapp.com",databaseURL:"https://fantacalcio-asta-live-5ccfb-default-rtdb.europe-west1.firebasedatabase.app",projectId:"fantacalcio-asta-live-5ccfb",storageBucket:"fantacalcio-asta-live-5ccfb.firebasestorage.app",messagingSenderId:"954983410799",appId:"1:954983410799:web:a3df7f79696e91e355319a"};
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getDatabase(app);let applying=false,ready=false;
+const status=(txt,cls='')=>{const e=document.getElementById('cloudStatus');if(e){e.textContent=txt;e.className='cloudPill '+cls}const i=document.getElementById('syncInfo');if(i)i.textContent=txt};
+const room='asta2026';const stateRef=ref(db,`rooms/${room}/state`);
+window.ASTA_CLOUD={push:async state=>{if(!ready||applying)return;try{await set(stateRef,{...state,_cloudUpdated:Date.now()})}catch(e){status('⚠️ Cloud bloccato','err')}},ready:false};
+signInAnonymously(auth).catch(()=>status('⚠️ Auth non disponibile','err'));
+onAuthStateChanged(auth,async user=>{if(!user)return;status('☁️ Autenticato · regole chiuse','warn');try{const snap=await get(stateRef);ready=true;window.ASTA_CLOUD.ready=true;if(snap.exists()){applying=true;window.dispatchEvent(new CustomEvent('asta-cloud-state',{detail:snap.val()}));applying=false}onValue(stateRef,s=>{if(!s.exists())return;applying=true;window.dispatchEvent(new CustomEvent('asta-cloud-state',{detail:s.val()}));setTimeout(()=>applying=false,0)});status('☁️ Cloud pronto*','warn')}catch(e){ready=false;window.ASTA_CLOUD.ready=false;status('🔒 Cloud attende regole','warn')}});
