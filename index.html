@@ -1,18 +1,18 @@
 <!doctype html><html lang="it"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#111827"><title>Asta Live V5.4.5</title>
-<link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="style.css"></head>
+<meta name="theme-color" content="#111827"><title>Asta Live V5.4.6</title>
+<link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-192.png"><link rel="stylesheet" href="style.css"></head>
 <body>
 <div id="leagueGate">
   <section class="gateCard">
-    <h1>⚽ ASTA LIVE <small class="gateVersion">V5.4.5</small></h1><p>Entra in una lega esistente oppure crea una nuova asta cloud.</p>
+    <h1>⚽ ASTA LIVE <small class="gateVersion">V5.4.6</small></h1><p>Entra in una lega esistente oppure crea una nuova asta cloud.</p>
     <input id="leagueNameInput" autocomplete="off" placeholder="Nome lega (es. Fantacalcio Amici)">
     <input id="leaguePasswordInput" type="password" autocomplete="current-password" placeholder="Password lega (min. 8 caratteri)">
     <div class="gateActions"><button id="joinLeagueBtn" class="primary">ENTRA</button><button id="createLeagueBtn" class="secondary">CREA NUOVA ASTA</button></div>
     <div id="leagueGateMsg" class="gateMsg"></div><div id="savedLeagues" class="savedLeagues"></div>
   </section>
 </div>
-<header><div class="brandBlock"><b>⚽ ASTA LIVE</b><small>Fantacalcio 2026/27 · V5.4.5</small></div>
+<header><div class="brandBlock"><b>⚽ ASTA LIVE</b><small>Fantacalcio 2026/27 · V5.4.6</small></div>
 <div class="headActions"><span id="leagueBadge" class="leagueName" hidden></span><button id="leaveLeagueBtn" class="logoutLeague" hidden>CAMBIA ASTA</button><span id="cloudStatus" class="cloudPill">☁️ Avvio…</span><button id="teamsBtn">👥</button><button id="settingsBtn">⚙️</button><button id="legendBtn">ⓘ</button></div></header>
 <main>
 <section id="managerStrip" class="managerStrip"></section>
@@ -30,7 +30,7 @@
 <button id="confirmAssign" class="primary">CONFERMA ASSEGNAZIONE</button><button id="cancelAssign" class="secondary compactBtn">ANNULLA</button></div></div></article></dialog>
 
 <dialog id="legendDialog"><article><button class="x" onclick="this.closest('dialog').close()">✕</button><h2>Legenda</h2><div id="legend"></div></article></dialog>
-<dialog id="settingsDialog"><article><button class="x" onclick="this.closest('dialog').close()">✕</button><h2>Impostazioni asta</h2><p class="muted">Rinomina i 10 partecipanti. Il primo sei tu.</p><h3>Visualizzazione</h3><div id="viewModeBox" class="viewModeBox"><button data-device="auto">AUTOMATICA</button><button data-device="mobile">MOBILE</button><button data-device="tablet">TABLET</button><button data-device="desktop">DESKTOP</button></div><div id="syncInfo" class="syncInfo">☁️ Sincronizzazione Firebase in preparazione…</div><hr><div id="managerInputs"></div><button id="saveManagers" class="primary">SALVA PARTECIPANTI</button><hr><button id="exportBtn" class="secondary">ESPORTA BACKUP</button><label class="importLabel">IMPORTA BACKUP<input id="importInput" type="file" accept=".json"></label><button id="resetAuction" class="danger">AZZERA ASTA</button></article></dialog>
+<dialog id="settingsDialog"><article><button class="x" onclick="this.closest('dialog').close()">✕</button><h2>Impostazioni asta</h2><p class="muted">Rinomina i 10 partecipanti. Il primo sei tu.</p><h3>Visualizzazione</h3><div id="viewModeBox" class="viewModeBox"><button data-device="auto">AUTOMATICA</button><button data-device="mobile">MOBILE</button><button data-device="tablet">TABLET</button><button data-device="desktop">DESKTOP</button></div><div id="syncInfo" class="syncInfo">☁️ Sincronizzazione Firebase…</div><div id="sessionInfo" class="syncInfo">📱 Sessione: riapertura automatica attiva su questo dispositivo.</div><hr><div id="managerInputs"></div><button id="saveManagers" class="primary">SALVA PARTECIPANTI</button><hr><button id="exportBtn" class="secondary">ESPORTA BACKUP</button><label class="importLabel">IMPORTA BACKUP<input id="importInput" type="file" accept=".json"></label><button id="resetAuction" class="danger">AZZERA ASTA</button></article></dialog>
 <dialog id="teamsDialog"><article><button class="x" onclick="this.closest('dialog').close()">✕</button><h2>Squadre · per budget residuo</h2><div id="teamsContent"></div></article></dialog>
 <div id="auctionSheet" class="sheetBackdrop" hidden><section class="sheetPanel" role="dialog" aria-modal="true" aria-labelledby="auctionTitle"><button id="closeAuctionSheet" class="x" type="button" aria-label="Chiudi">✕</button><h2 id="auctionTitle">Annulla / elimina assegnazione</h2><p class="muted">Puoi eliminare qualsiasi assegnazione, non solo l'ultima.</p><div id="history"></div></section></div>
 <script src="data.js"></script><script type="module" src="cloud.js"></script><script src="app.js"></script></body></html>
