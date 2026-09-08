@@ -6,5 +6,5 @@ const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getDatabase(app);le
 const status=(txt,cls='')=>{const e=document.getElementById('cloudStatus');if(e){e.textContent=txt;e.className='cloudPill '+cls}const i=document.getElementById('syncInfo');if(i)i.textContent=txt};
 const room='asta2026';const stateRef=ref(db,`rooms/${room}/state`);
 window.ASTA_CLOUD={push:async state=>{if(!ready||applying)return;try{await set(stateRef,{...state,_cloudUpdated:Date.now()})}catch(e){status('⚠️ Cloud bloccato','err')}},ready:false};
-signInAnonymously(auth).catch(()=>status('⚠️ Auth non disponibile','err'));
+signInAnonymously(auth).catch((e)=>{console.error('Firebase anonymous auth:',e);const code=(e&&e.code)||'errore';status('⚠️ Auth: '+code.replace('auth/',''),'err');});
 onAuthStateChanged(auth,async user=>{if(!user)return;status('☁️ Autenticato · regole chiuse','warn');try{const snap=await get(stateRef);ready=true;window.ASTA_CLOUD.ready=true;if(snap.exists()){applying=true;window.dispatchEvent(new CustomEvent('asta-cloud-state',{detail:snap.val()}));applying=false}onValue(stateRef,s=>{if(!s.exists())return;applying=true;window.dispatchEvent(new CustomEvent('asta-cloud-state',{detail:s.val()}));setTimeout(()=>applying=false,0)});status('☁️ Cloud pronto*','warn')}catch(e){ready=false;window.ASTA_CLOUD.ready=false;status('🔒 Cloud attende regole','warn')}});
