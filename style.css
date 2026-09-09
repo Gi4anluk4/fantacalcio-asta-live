@@ -124,3 +124,5 @@ body.league-locked #auctionBtn,body.viewer-mode #auctionBtn{pointer-events:none;
 body.league-locked .deleteOne,body.viewer-mode .deleteOne{display:none!important}
 body.league-locked #saveNote,body.viewer-mode #saveNote{display:none!important}
 body.league-locked .mgrInput,body.viewer-mode .mgrInput{pointer-events:none;opacity:.7}
+
+.savedLeagueActions{display:flex;gap:6px;align-items:center}.savedLeague .savedRemove{font-size:10px;opacity:.78;border-color:#7f1d1d}.savedLeague .savedRemove:hover{opacity:1}
