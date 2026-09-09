@@ -183,3 +183,72 @@ body.league-locked .mgrInput,body.viewer-mode .mgrInput{pointer-events:none;opac
  .lineupsPage .pitchPlayer b{font-size:7.5px}
  .lineupsPage .pitchPlayer small,.lineupsPage .lineupInjury{font-size:5.5px}
 }
+
+/* V5.6.6 — desktop stabile + campo orizzontale + stato NON ASTA */
+.nonAuction{opacity:.82}
+.nonAuction .tierBadge{background:#78350f!important;border-left-color:#f59e0b!important;color:#fff}
+.nonAuctionAlert{margin:10px 0;background:#78350f;border:1px solid #f59e0b;color:#fff;padding:7px 9px;border-radius:8px;font-size:10px;font-weight:900}
+
+/* Il campo è landscape: POR -> DIF -> CEN -> ATT da sinistra a destra */
+.lineupsPage .pitch{
+  display:flex!important;
+  flex-direction:row!important;
+  align-items:stretch!important;
+  justify-content:space-between!important;
+  width:100%!important;
+  max-width:680px!important;
+  min-height:0!important;
+  aspect-ratio:1.9/1;
+  padding:8px 7px!important;
+}
+.lineupsPage .pitchRow{
+  flex:1 1 0!important;
+  min-width:0!important;
+  min-height:0!important;
+  height:auto!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:space-around!important;
+  gap:4px!important;
+  padding:2px!important;
+}
+.lineupsPage .pitchRow0{flex:.65 1 0!important;justify-content:center!important}
+.lineupsPage .pitchPlayer{width:min(94%,86px)!important;min-width:0!important;max-width:86px!important;padding:4px 3px!important}
+.lineupsPage .pitchPlayer b{font-size:8px!important;line-height:1.05!important;white-space:normal}
+.lineupsPage .pitchPlayer small{font-size:5.5px!important}
+.lineupsPage .lineupInjury{font-size:5px!important;line-height:1.05!important;max-height:22px;overflow:hidden}
+
+@media (min-width:1100px){
+  body.device-desktop,body.device-auto{padding-left:104px!important;padding-bottom:0!important;overflow-x:hidden}
+  .device-desktop header,.device-auto header{left:0!important;width:100%!important;height:54px!important;padding:7px 14px!important}
+  .device-desktop main,.device-auto main{max-width:none!important;width:100%!important;padding:10px 14px 22px!important;margin:0!important}
+  .device-desktop nav,.device-auto nav{
+    left:0!important;right:auto!important;top:54px!important;bottom:0!important;
+    width:104px!important;height:auto!important;
+    display:grid!important;grid-template-columns:1fr!important;grid-template-rows:repeat(6,62px)!important;
+    align-content:start!important;border-top:0!important;border-right:1px solid #263146!important
+  }
+  .device-desktop nav button,.device-auto nav button{width:100%!important;min-width:0!important;padding:6px 5px!important;font-size:12px!important;line-height:1.1!important;white-space:nowrap!important;overflow:visible!important}
+  .device-desktop nav #lineupsBtn,.device-auto nav #lineupsBtn{font-size:9px!important;letter-spacing:-.25px!important}
+  .device-desktop .managerStrip,.device-auto .managerStrip{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:6px!important;overflow:visible!important}
+  .device-desktop .managerChip,.device-auto .managerChip{width:100%!important;min-width:0!important;max-width:none!important}
+  .device-desktop #playerList,.device-auto #playerList{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:6px!important}
+  .device-desktop #playerList .group,.device-auto #playerList .group{grid-column:1/-1!important}
+  .device-desktop .lineupsPage,.device-auto .lineupsPage{max-width:1080px;margin:0 auto;padding:2px 12px 28px}
+  .device-desktop .lineupsPage .lineupCard,.device-auto .lineupsPage .lineupCard{max-width:900px!important;margin:0 auto 14px!important;padding:9px!important}
+  .device-desktop .lineupsPage .pitch,.device-auto .lineupsPage .pitch{max-width:650px!important;aspect-ratio:1.95/1!important}
+  .device-desktop .lineupsPage .lineupsClubs,.device-auto .lineupsPage .lineupsClubs{top:54px!important}
+}
+@media (min-width:1450px){
+  .device-desktop #playerList,.device-auto #playerList{grid-template-columns:repeat(3,minmax(280px,1fr))!important}
+}
+@media (max-width:719px){
+  .lineupsPage .pitch{max-width:100%!important;aspect-ratio:1.72/1!important;padding:5px 3px!important}
+  .lineupsPage .pitchRow{gap:2px!important;padding:1px!important}
+  .lineupsPage .pitchPlayer{width:min(96%,64px)!important;max-width:64px!important;padding:3px 2px!important;border-radius:6px!important}
+  .lineupsPage .pitchPlayer b{font-size:7px!important}
+  .lineupsPage .pitchPlayer small{font-size:5px!important}
+  .lineupsPage .lineupInjury{font-size:4.6px!important;max-height:18px}
+  .lineupsPage .lineupCard{margin-bottom:10px!important}
+}

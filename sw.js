@@ -1,4 +1,4 @@
-const CACHE='asta-live-v5-6-5-20260909-inline-lineups';
+const CACHE='asta-live-v5-6-6-20260909-definitiva-landscape';
 const CORE=['./index.html','./style.css','./data.js','./lineups.js','./app.js','./cloud.js','./manifest.webmanifest','./icon-192.png','./icon-512.png'];
 self.addEventListener('install',event=>{self.skipWaiting();event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE)))});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
