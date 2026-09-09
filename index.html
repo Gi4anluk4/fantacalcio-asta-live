@@ -1,26 +1,30 @@
 <!doctype html><html lang="it"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#111827"><title>Asta Live V5.6.4</title>
+<meta name="theme-color" content="#111827"><title>Asta Live V5.6.5</title>
 <link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-192.png"><link rel="stylesheet" href="style.css"></head>
 <body>
 <div id="leagueGate">
   <section class="gateCard">
-    <h1>⚽ ASTA LIVE <small class="gateVersion">V5.6.4</small></h1><p>Entra in una lega esistente oppure crea una nuova asta cloud.</p>
+    <h1>⚽ ASTA LIVE <small class="gateVersion">V5.6.5</small></h1><p>Entra in una lega esistente oppure crea una nuova asta cloud.</p>
     <input id="leagueNameInput" autocomplete="off" placeholder="Nome lega (es. Fantacalcio Amici)">
     <input id="leaguePasswordInput" type="password" autocomplete="current-password" placeholder="Password lega (min. 8 caratteri)">
     <div class="gateActions"><button id="joinLeagueBtn" class="primary">ENTRA</button><button id="joinViewerBtn" class="secondary">👁 SPETTATORE</button><button id="createLeagueBtn" class="secondary">CREA NUOVA ASTA</button></div>
     <div id="leagueGateMsg" class="gateMsg"></div><div id="savedLeagues" class="savedLeagues"></div>
   </section>
 </div>
-<header><div class="brandBlock"><b>⚽ ASTA LIVE</b><small>Fantacalcio 2026/27 · V5.6.4</small></div>
+<header><div class="brandBlock"><b>⚽ ASTA LIVE</b><small>Fantacalcio 2026/27 · V5.6.5</small></div>
 <div class="headActions"><span id="leagueBadge" class="leagueName" hidden></span><span id="accessBadge" class="accessBadge" hidden></span><button id="leaveLeagueBtn" class="logoutLeague" hidden>CAMBIA ASTA</button><span id="cloudStatus" class="cloudPill">☁️ Avvio…</span><button id="teamsBtn">👥</button><button id="settingsBtn">⚙️</button><button id="legendBtn">ⓘ</button></div></header>
 <main>
+<section id="auctionView">
 <section id="managerStrip" class="managerStrip"></section>
 <div class="searchWrap"><input id="search" placeholder="🔎 Cerca giocatore o squadra..."><div id="suggestions"></div></div>
 <div class="chips" id="statusFilters"><button data-status="free" class="on">LIBERI</button><button data-status="all">TUTTI</button><button data-status="sold">ASSEGNATI</button><button data-status="mine">MIEI</button></div>
 <div class="chips" id="viewFilters"><button data-view="az" class="on">A–Z</button><button data-view="club">SQUADRA</button><button data-view="score">VALUTAZIONE</button></div>
 <div id="subFilters" class="subFilters"></div><button id="resetBtn" class="mini">↺ Reset filtri</button>
-<section id="playerList"></section></main>
+<section id="playerList"></section>
+</section>
+<section id="lineupsPage" class="lineupsPage" hidden><div class="lineupsPageHead"><div><h2>Formazioni tipo Serie A</h2><p id="lineupsMeta" class="muted"></p></div><button id="backToList" class="secondary">← LISTONE</button></div><div id="lineupsClubs" class="lineupsClubs"></div><div id="lineupsContent"></div></section>
+</main>
 <nav><button data-role="P">P</button><button data-role="D" class="on">D</button><button data-role="C">C</button><button data-role="A">A</button><button id="lineupsBtn" class="lineupsNav">SCHIERAMENTI</button><button id="auctionBtn" class="dangerNav">ANNULLA</button></nav>
 
 <dialog id="playerDialog"><article class="playerArticle"><button class="x" onclick="this.closest('dialog').close()">✕</button><div id="detail"></div>
@@ -42,6 +46,5 @@
   </div>
 </div><hr><div id="managerInputs"></div><button id="saveManagers" class="primary">SALVA PARTECIPANTI</button><hr><button id="exportBtn" class="secondary">ESPORTA BACKUP</button><label class="importLabel">IMPORTA BACKUP<input id="importInput" type="file" accept=".json"></label><button id="resetAuction" class="danger">AZZERA ASTA</button></article></dialog>
 <dialog id="teamsDialog"><article><button class="x" onclick="this.closest('dialog').close()">✕</button><h2>Squadre · per budget residuo</h2><div id="teamsContent"></div></article></dialog>
-<dialog id="lineupsDialog" class="lineupsDialog"><article><button class="x" onclick="this.closest('dialog').close()">✕</button><h2>Formazioni tipo Serie A</h2><p id="lineupsMeta" class="muted"></p><div id="lineupsClubs" class="lineupsClubs"></div><div id="lineupsContent"></div></article></dialog>
 <div id="auctionSheet" class="sheetBackdrop" hidden><section class="sheetPanel" role="dialog" aria-modal="true" aria-labelledby="auctionTitle"><button id="closeAuctionSheet" class="x" type="button" aria-label="Chiudi">✕</button><h2 id="auctionTitle">Annulla / elimina assegnazione</h2><p class="muted">Puoi eliminare qualsiasi assegnazione, non solo l'ultima.</p><div id="history"></div></section></div>
 <script src="data.js"></script><script src="lineups.js"></script><script type="module" src="cloud.js"></script><script src="app.js"></script></body></html>

@@ -136,3 +136,50 @@ body.league-locked .mgrInput,body.viewer-mode .mgrInput{pointer-events:none;opac
 /* V5.6.3 — Formazioni tipo stagionali */
 .typeLegend{font-size:9px;color:#cbd5e1;background:#172033;border-radius:8px;padding:6px 8px;margin:0 0 8px}.lineupInjury{display:block;margin-top:3px;font-size:6px;line-height:1.15;font-style:normal;font-weight:900;color:#b45309;text-decoration:none}.lineupSold .lineupInjury{color:#fbbf24}.lineupNotes{margin-top:7px;padding-top:7px;border-top:1px solid #334155;color:#cbd5e1;font-size:9px;line-height:1.35}.ballotName{font-weight:800}
 \n\n/* V5.6.4 — rifinitura desktop + dashboard Schieramenti */\n@media (min-width:1100px){\n  body.device-desktop,body.device-auto{padding-left:74px}\n  .device-desktop header,.device-auto header{left:74px;height:54px;padding:7px 16px}\n  .device-desktop .brandBlock,.device-auto .brandBlock{display:flex;align-items:baseline;gap:10px;min-width:230px}\n  .device-desktop .brandBlock b,.device-auto .brandBlock b{font-size:18px}\n  .device-desktop .brandBlock small,.device-auto .brandBlock small{font-size:9px;white-space:nowrap}\n  .device-desktop .headActions,.device-auto .headActions{gap:7px;justify-content:flex-end;flex-wrap:nowrap}\n  .device-desktop .leagueName,.device-auto .leagueName{max-width:210px;overflow:hidden;text-overflow:ellipsis}\n  .device-desktop main,.device-auto main{padding:10px 14px 18px}\n  .device-desktop .managerStrip,.device-auto .managerStrip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px;overflow:visible}\n  .device-desktop .managerChip,.device-auto .managerChip{min-width:0;max-width:none;width:100%;padding:5px 8px}\n  .device-desktop .managerChip b,.device-auto .managerChip b{max-width:none;font-size:9px}\n  .device-desktop .managerChip span,.device-auto .managerChip span{font-size:11px}\n  .device-desktop .managerChip small,.device-auto .managerChip small{font-size:7px}\n  .device-desktop #playerList,.device-auto #playerList{grid-template-columns:repeat(3,minmax(260px,1fr));gap:6px}\n  .device-desktop nav,.device-auto nav{top:54px;width:74px;grid-template-rows:repeat(6,62px)}\n  .device-desktop nav button,.device-auto nav button{font-size:12px;padding:4px}\n\n  .device-desktop .lineupsDialog,.device-auto .lineupsDialog{position:fixed;inset:62px 12px 12px 86px;margin:0;width:auto;max-width:none;height:auto;max-height:none}\n  .device-desktop .lineupsDialog article,.device-auto .lineupsDialog article{height:100%;max-height:none;overflow:auto;padding:12px 14px 18px}\n  .device-desktop .lineupsDialog h2,.device-auto .lineupsDialog h2{margin:0 44px 2px 0;font-size:20px}\n  .device-desktop .lineupsClubs,.device-auto .lineupsClubs{position:sticky;top:-12px;z-index:8;background:#111827;padding:8px 0 9px;margin-bottom:4px}\n  .device-desktop .lineupsGrid,.device-auto .lineupsGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;align-items:start}\n  .device-desktop .lineupCard,.device-auto .lineupCard{padding:8px;border-radius:12px;scroll-margin-top:64px}\n  .device-desktop .lineupHead,.device-auto .lineupHead{margin-bottom:6px}\n  .device-desktop .lineupHead h3,.device-auto .lineupHead h3{font-size:15px}\n  .device-desktop .lineupHead small,.device-auto .lineupHead small{font-size:8px}\n  .device-desktop .lineupHead span,.device-auto .lineupHead span{font-size:8px;padding:4px 6px}\n  .device-desktop .typeLegend,.device-auto .typeLegend{font-size:7px;padding:4px 5px;margin-bottom:5px}\n  .device-desktop .pitch,.device-auto .pitch{min-height:286px;padding:7px 3px;border-radius:10px}\n  .device-desktop .pitchRow,.device-auto .pitchRow{gap:2px;min-height:43px}\n  .device-desktop .pitchPlayer,.device-auto .pitchPlayer{min-width:38px;max-width:64px;padding:4px 2px;border-radius:6px}\n  .device-desktop .pitchPlayer b,.device-auto .pitchPlayer b{font-size:7px;line-height:1.05}\n  .device-desktop .pitchPlayer small,.device-auto .pitchPlayer small{font-size:5px;line-height:1.05}\n  .device-desktop .lineupInjury,.device-auto .lineupInjury{font-size:5px;line-height:1.05}\n  .device-desktop .ballots,.device-auto .ballots{font-size:8px;line-height:1.35;padding:6px;margin-top:6px}\n  .device-desktop .ballots>b,.device-auto .ballots>b{font-size:7px}\n  .device-desktop .lineupNotes,.device-auto .lineupNotes{font-size:7px;line-height:1.25}\n}\n@media (min-width:1450px){.device-desktop .lineupsGrid,.device-auto .lineupsGrid{grid-template-columns:repeat(4,minmax(300px,1fr))}}\n@media (min-width:900px) and (max-width:1099px){\n  .device-tablet .lineupsDialog{width:96vw}\n  .device-tablet .lineupsGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}\n  .device-tablet .pitch{min-height:310px}\n}\n@media (min-width:720px) and (max-width:899px){.lineupsGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}}\n@media (max-width:719px){.lineupsGrid{display:grid;grid-template-columns:1fr;gap:9px}.lineupCard{scroll-margin-top:12px}}\n
+
+/* V5.6.5 — Schieramenti come pagina + sidebar desktop leggibile */
+.lineupsPage{width:100%;padding:2px 0 24px}
+.lineupsPage[hidden],#auctionView[hidden]{display:none!important}
+.lineupsPageHead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin:2px 0 8px}
+.lineupsPageHead h2{margin:0 0 3px;font-size:20px}
+.lineupsPageHead p{margin:0;font-size:9px}
+.lineupsPage .lineupsClubs{position:sticky;top:56px;z-index:8;background:var(--bg);padding:7px 0 8px;margin:0 0 8px}
+.lineupsPage .lineupsGrid{display:block}
+.lineupsPage .lineupCard{width:100%;max-width:920px;margin:0 auto 14px;padding:10px;scroll-margin-top:112px}
+.lineupsPage .pitch{min-height:340px;max-width:760px;margin:0 auto;padding:8px 5px}
+.lineupsPage .pitchRow{min-height:48px}
+.lineupsPage .pitchPlayer{min-width:56px;max-width:92px;padding:5px 4px}
+.lineupsPage .pitchPlayer b{font-size:9px}
+.lineupsPage .pitchPlayer small{font-size:6px}
+.lineupsPage .lineupInjury{font-size:6px}
+.lineupsPage .ballots,.lineupsPage .lineupNotes{max-width:760px;margin-left:auto;margin-right:auto}
+
+@media(min-width:1100px){
+ body.device-desktop,body.device-auto{padding-left:116px}
+ .device-desktop header,.device-auto header{left:116px}
+ .device-desktop nav,.device-auto nav{width:116px;top:54px;grid-template-rows:repeat(6,62px)}
+ .device-desktop nav button,.device-auto nav button{font-size:12px;line-height:1.15;padding:6px 7px;white-space:normal;overflow-wrap:anywhere}
+ .device-desktop nav #lineupsBtn,.device-auto nav #lineupsBtn{font-size:10px;letter-spacing:-.15px}
+ .device-desktop main,.device-auto main{padding-left:16px;padding-right:16px}
+ .device-desktop .lineupsPage .lineupsClubs,.device-auto .lineupsPage .lineupsClubs{top:54px}
+ .device-desktop .lineupsPage .lineupCard,.device-auto .lineupsPage .lineupCard{max-width:980px;margin-bottom:16px}
+ .device-desktop .lineupsPage .pitch,.device-auto .lineupsPage .pitch{min-height:300px;max-width:720px}
+ .device-desktop .lineupsPage .pitchRow,.device-auto .lineupsPage .pitchRow{min-height:42px}
+ .device-desktop .lineupsPage .pitchPlayer,.device-auto .lineupsPage .pitchPlayer{min-width:52px;max-width:86px}
+ .device-desktop .lineupsPage .pitchPlayer b,.device-auto .lineupsPage .pitchPlayer b{font-size:8px}
+ .device-desktop .lineupsPage .ballots,.device-auto .lineupsPage .lineupNotes{max-width:720px}
+}
+@media(max-width:719px){
+ .lineupsPage{padding-bottom:70px}
+ .lineupsPageHead{align-items:center}
+ .lineupsPageHead h2{font-size:17px}
+ .lineupsPageHead p{font-size:8px}
+ .lineupsPageHead #backToList{font-size:9px;padding:7px 8px;white-space:nowrap}
+ .lineupsPage .lineupsClubs{top:56px}
+ .lineupsPage .lineupCard{padding:8px;margin-bottom:10px}
+ .lineupsPage .pitch{min-height:300px;width:100%;padding:5px 2px}
+ .lineupsPage .pitchRow{min-height:42px;gap:2px}
+ .lineupsPage .pitchPlayer{min-width:46px;max-width:70px;padding:4px 2px}
+ .lineupsPage .pitchPlayer b{font-size:7.5px}
+ .lineupsPage .pitchPlayer small,.lineupsPage .lineupInjury{font-size:5.5px}
+}
