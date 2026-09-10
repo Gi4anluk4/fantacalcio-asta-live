@@ -252,3 +252,90 @@ body.league-locked .mgrInput,body.viewer-mode .mgrInput{pointer-events:none;opac
   .lineupsPage .lineupInjury{font-size:4.6px!important;max-height:18px}
   .lineupsPage .lineupCard{margin-bottom:10px!important}
 }
+
+/* =========================================================
+   V5.7.0 — UI/UX RESPONSIVE
+   Solo presentazione: database e motore LIVE invariati.
+   ========================================================= */
+:root{
+  --bg:#080d19;--p:#111827;--p2:#172033;--p3:#1d2940;
+  --line:#334155;--line-soft:#263246;--text:#f8fafc;--muted:#94a3b8;
+  --radius:12px;--header-h:58px;--mobile-nav-h:64px;
+  --shadow:0 10px 28px rgba(0,0,0,.24)
+}
+html{scroll-behavior:smooth}
+body{min-height:100dvh;background:radial-gradient(circle at 50% -20%,#16213a 0,#080d19 38%,#080d19 100%)}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid #93c5fd;outline-offset:2px}
+
+/* Header più pulito e leggibile */
+header{height:var(--header-h);padding:8px 12px;border-bottom:1px solid var(--line-soft);box-shadow:0 5px 18px rgba(0,0,0,.18);backdrop-filter:blur(10px)}
+.brandBlock b{font-size:15px;letter-spacing:.2px}.brandBlock small{font-size:9px;margin-top:1px}
+.headActions{display:flex;align-items:center;gap:4px;min-width:0}.headActions button{width:34px;height:34px;border-radius:9px;background:#172033;border:1px solid transparent;padding:0;display:grid;place-items:center}.headActions button:hover{border-color:#475569;background:#1e293b}
+.leagueName,.accessBadge{max-width:145px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cloudPill{padding:6px 8px;font-size:10px}
+
+/* Area asta: gerarchia visiva e controlli */
+main{width:100%;max-width:900px;padding:9px 10px calc(var(--mobile-nav-h) + 16px)}
+#auctionView{min-width:0}
+.managerStrip{gap:6px;padding:1px 0 5px;scroll-snap-type:x proximity}.managerChip{scroll-snap-align:start;min-width:108px;border-radius:11px;padding:7px 9px;background:linear-gradient(180deg,#172238,#121b2d);box-shadow:0 2px 8px rgba(0,0,0,.16)}.managerChip.me{border-color:#64748b;background:linear-gradient(180deg,#26344d,#1b273b)}.managerChip b{font-size:10px}.managerChip span{font-size:12px}.managerChip small{font-size:8px}
+.searchWrap{margin-top:7px}.searchWrap:focus-within{z-index:22}#search{height:44px;margin-top:0;padding:10px 12px;border-radius:12px;background:#111b2d;border-color:#3b4a62;font-size:13px;box-shadow:inset 0 1px 0 rgba(255,255,255,.025)}#suggestions{top:47px;border:1px solid #334155;box-shadow:var(--shadow)}.suggestion{padding:11px 10px}
+.chips,.subFilters{gap:5px;margin-top:6px;padding-bottom:1px}.chips button,.mini,.subFilters button{min-height:32px;border-radius:9px;padding:7px 10px;font-size:9px;font-weight:750}.chips .on,.subFilters .on{box-shadow:0 2px 8px rgba(226,232,240,.13)}
+#resetBtn{margin-top:6px;opacity:.82}
+.group{margin:13px 3px 6px;font-size:10px;letter-spacing:.25px;text-transform:uppercase}
+
+/* Righe giocatore: più immediate senza aumentare l'altezza */
+.row{grid-template-columns:68px minmax(0,1fr) minmax(96px,auto);gap:8px;min-height:58px;margin-bottom:5px;border:1px solid transparent;border-radius:10px;background:linear-gradient(180deg,#141f32,#111a2b);box-shadow:0 2px 8px rgba(0,0,0,.14);transition:transform .12s ease,border-color .12s ease,background .12s ease}.row:hover{transform:translateY(-1px);border-color:#40506a;background:#17243a}.tierBadge{font-size:10px;letter-spacing:.15px}.nm{padding:9px 0}.nm b{font-size:13px;line-height:1.15}.nm small,.rt small{font-size:8px;margin-top:3px}.rt{padding:8px 8px 6px 0;min-width:0}.rt b{font-size:18px;line-height:1}.rt small{max-width:160px}.row.sold{opacity:.42;transform:none}
+
+/* Navigazione mobile: 6 voci reali su una sola riga */
+nav{height:var(--mobile-nav-h);padding-bottom:max(0px,env(safe-area-inset-bottom));grid-template-columns:repeat(6,minmax(0,1fr));border-top:1px solid #334155;background:rgba(17,24,39,.98);box-shadow:0 -5px 18px rgba(0,0,0,.26)}nav button{position:relative;min-width:0;padding:4px 2px;font-size:12px;border-radius:0}nav button.on:after{content:"";position:absolute;left:25%;right:25%;top:0;height:3px;border-radius:0 0 3px 3px;background:#e2e8f0}nav #lineupsBtn{font-size:7px;line-height:1.05;letter-spacing:-.15px}nav #auctionBtn{font-size:8px;line-height:1.05}
+
+/* Scheda giocatore */
+dialog#playerDialog{width:min(96vw,620px)}dialog#playerDialog article{border-radius:17px;box-shadow:0 24px 70px rgba(0,0,0,.5)}.playerArticle{padding:14px}.hero{align-items:flex-start;margin-right:34px}.hero h2{font-size:22px;line-height:1.05}.hero small{font-size:10px}.score{font-size:30px;line-height:1}.score span{margin-top:3px}.positionTop,.pairTop{margin-top:6px;color:#dbeafe}.priceGrid{gap:7px;margin-top:10px}.metric{border:1px solid #29364d;border-radius:10px;padding:9px}.metric span{font-size:8px}.metric strong{font-size:14px}.indicators{gap:6px;margin-top:7px}.indicator{border:1px solid #243149;border-radius:10px;padding:8px;min-height:48px}.indicator span{font-size:8px}.indicator b{font-size:10px;line-height:1.2}.analysis{padding:10px;border:1px solid #283650;border-radius:10px;font-size:10.5px;line-height:1.42}.analysis b{letter-spacing:.35px}.injuryAlert,.outSerieAlert,.nonAuctionAlert{margin:9px 0;border-radius:10px}.assignSticky{bottom:-8px;margin:3px -5px -5px;padding:10px 5px 5px;background:linear-gradient(transparent,#111827 22%)}#assignBtn,#confirmAssign{min-height:42px}
+
+/* Formazioni: card più ariosa, campo sempre leggibile */
+.lineupsPageHead{padding:3px 2px 2px}.lineupsPageHead h2{font-size:19px}.lineupsPage .lineupsClubs{top:var(--header-h);display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid #1e293b}.lineupsPage .lineupsClubs::-webkit-scrollbar{display:none}.lineupsPage .lineupsClubs button{flex:0 0 auto}.lineupsPage .lineupCard{border:1px solid #2d3b53;border-radius:14px;background:linear-gradient(180deg,#121c2e,#0f1726);box-shadow:0 8px 22px rgba(0,0,0,.17)}.lineupHead h3{letter-spacing:.1px}.typeLegend{background:#152136;border:1px solid #243149}.lineupsPage .pitch{border:1px solid rgba(255,255,255,.13);box-shadow:inset 0 0 30px rgba(0,0,0,.12)}
+
+/* Tablet: due colonne vere, controlli più comodi */
+@media (min-width:720px) and (max-width:1099px){
+  body.device-auto,body.device-tablet{padding-bottom:72px}
+  .device-auto main,.device-tablet main{max-width:1040px;padding:10px 14px 84px}
+  .device-auto .managerStrip,.device-tablet .managerStrip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));overflow:visible}
+  .device-auto .managerChip,.device-tablet .managerChip{min-width:0;width:100%}
+  .device-auto #playerList,.device-tablet #playerList{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+  .device-auto #playerList .group,.device-tablet #playerList .group{grid-column:1/-1}
+  .device-auto .row,.device-tablet .row{margin-bottom:0}
+  .device-auto dialog#playerDialog,.device-tablet dialog#playerDialog{width:min(88vw,680px)}
+  .device-auto .lineupsPage .lineupCard,.device-tablet .lineupsPage .lineupCard{max-width:900px}
+}
+
+/* Desktop: sidebar compatta, workspace largo, dettaglio laterale */
+@media (min-width:1100px){
+  body.device-auto,body.device-desktop{padding-left:96px!important;padding-bottom:0!important}
+  .device-auto header,.device-desktop header{height:58px!important;padding:8px 16px 8px 112px!important;left:0!important;width:100%!important}
+  .device-auto .brandBlock,.device-desktop .brandBlock{display:flex;align-items:baseline;gap:10px}.device-auto .brandBlock b,.device-desktop .brandBlock b{font-size:17px}.device-auto .brandBlock small,.device-desktop .brandBlock small{font-size:9px}
+  .device-auto main,.device-desktop main{max-width:none!important;margin:0!important;padding:12px 16px 24px!important}
+  .device-auto nav,.device-desktop nav{left:0!important;top:0!important;bottom:0!important;width:96px!important;height:100dvh!important;padding-top:66px!important;display:grid!important;grid-template-columns:1fr!important;grid-template-rows:repeat(6,64px)!important;align-content:start!important;border-top:0!important;border-right:1px solid #334155!important;box-shadow:6px 0 20px rgba(0,0,0,.18)!important}
+  .device-auto nav button,.device-desktop nav button{font-size:13px!important;border-bottom:1px solid rgba(51,65,85,.45);white-space:normal!important}.device-auto nav button.on:after,.device-desktop nav button.on:after{left:auto;right:0;top:20%;bottom:20%;width:3px;height:auto;border-radius:3px 0 0 3px}.device-auto nav #lineupsBtn,.device-desktop nav #lineupsBtn{font-size:8px!important}.device-auto nav #auctionBtn,.device-desktop nav #auctionBtn{font-size:9px!important}
+  .device-auto .managerStrip,.device-desktop .managerStrip{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:7px!important;overflow:visible!important}.device-auto .managerChip,.device-desktop .managerChip{min-width:0!important;max-width:none!important;width:100%!important;padding:7px 9px!important}.device-auto .managerChip b,.device-desktop .managerChip b{max-width:none!important;font-size:9px!important}
+  .device-auto .searchWrap,.device-desktop .searchWrap{margin-top:8px}.device-auto #search,.device-desktop #search{height:46px;font-size:13px}
+  .device-auto #playerList,.device-desktop #playerList{display:grid!important;grid-template-columns:repeat(2,minmax(330px,1fr))!important;gap:7px!important}.device-auto #playerList .group,.device-desktop #playerList .group{grid-column:1/-1!important}.device-auto .row,.device-desktop .row{margin-bottom:0;min-height:61px}.device-auto .nm b,.device-desktop .nm b{font-size:13.5px}.device-auto .rt b,.device-desktop .rt b{font-size:19px}
+  .device-auto dialog#playerDialog[open],.device-desktop dialog#playerDialog[open]{position:fixed!important;inset:70px 14px 14px auto!important;margin:0!important;width:min(540px,39vw)!important;height:calc(100dvh - 84px)!important;max-height:none!important}.device-auto dialog#playerDialog article,.device-desktop dialog#playerDialog article{height:100%;max-height:none;border-radius:16px}.device-auto dialog#playerDialog::backdrop,.device-desktop dialog#playerDialog::backdrop{background:rgba(0,0,0,.28)}
+  .device-auto .lineupsPage,.device-desktop .lineupsPage{max-width:1180px!important;margin:0 auto!important}.device-auto .lineupsPage .lineupsClubs,.device-desktop .lineupsPage .lineupsClubs{top:58px!important}.device-auto .lineupsPage .lineupCard,.device-desktop .lineupsPage .lineupCard{max-width:980px!important;padding:12px!important}.device-auto .lineupsPage .pitch,.device-desktop .lineupsPage .pitch{max-width:760px!important;aspect-ratio:1.9/1!important}.device-auto .lineupsPage .ballots,.device-desktop .lineupsPage .ballots,.device-auto .lineupsPage .lineupNotes,.device-desktop .lineupsPage .lineupNotes{max-width:760px!important}
+}
+@media (min-width:1500px){.device-auto #playerList,.device-desktop #playerList{grid-template-columns:repeat(3,minmax(300px,1fr))!important}}
+
+/* Smartphone compatto: priorità a nome, voto e prezzo live */
+@media (max-width:719px){
+  body.device-auto,body.device-mobile{padding-bottom:calc(var(--mobile-nav-h) + env(safe-area-inset-bottom))}
+  .device-auto header,.device-mobile header{padding-left:9px;padding-right:7px}.device-auto .brandBlock small,.device-mobile .brandBlock small{display:none}.device-auto .leagueName,.device-mobile .leagueName,.device-auto .accessBadge,.device-mobile .accessBadge{display:none!important}.device-auto .cloudPill,.device-mobile .cloudPill{max-width:80px;font-size:9px;padding:5px 6px}.device-auto .headActions,.device-mobile .headActions{gap:2px}.device-auto .headActions button,.device-mobile .headActions button{width:31px;height:31px;font-size:16px}
+  .device-auto main,.device-mobile main{padding:7px 7px 80px}.device-auto .managerChip,.device-mobile .managerChip{min-width:101px}.device-auto #search,.device-mobile #search{height:42px;font-size:12px}.device-auto .chips button,.device-mobile .chips button,.device-auto .subFilters button,.device-mobile .subFilters button{min-height:31px;padding:6px 9px}
+  .device-auto .row,.device-mobile .row{grid-template-columns:61px minmax(0,1fr) 98px;min-height:56px;gap:6px}.device-auto .tierBadge,.device-mobile .tierBadge{font-size:9px}.device-auto .nm,.device-mobile .nm{padding:8px 0}.device-auto .nm b,.device-mobile .nm b{font-size:12.5px}.device-auto .rt,.device-mobile .rt{padding:8px 6px 5px 0}.device-auto .rt b,.device-mobile .rt b{font-size:17px}.device-auto .rt small,.device-mobile .rt small{font-size:7.2px;max-width:98px}
+  .device-auto dialog#playerDialog,.device-mobile dialog#playerDialog{width:100vw;max-width:none;margin:auto 0 0}.device-auto dialog#playerDialog[open],.device-mobile dialog#playerDialog[open]{position:fixed;inset:auto 0 0;height:min(88dvh,760px)}.device-auto dialog#playerDialog article,.device-mobile dialog#playerDialog article{height:100%;max-height:none;border-radius:18px 18px 0 0;border-bottom:0;padding:13px 11px 8px}.device-auto .hero h2,.device-mobile .hero h2{font-size:20px}.device-auto .score,.device-mobile .score{font-size:27px}.device-auto .priceGrid,.device-mobile .priceGrid{gap:5px}.device-auto .metric,.device-mobile .metric{padding:7px 6px}.device-auto .metric strong,.device-mobile .metric strong{font-size:12px}.device-auto .indicators,.device-mobile .indicators{grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}.device-auto .analysis,.device-mobile .analysis{font-size:10px;padding:8px;line-height:1.35}
+  .lineupsPage .pitch{aspect-ratio:1.66/1!important}.lineupsPage .pitchPlayer{max-width:62px!important}.lineupsPageHead h2{font-size:16px}
+}
+
+/* telefoni molto stretti */
+@media(max-width:380px){
+  .device-auto .row,.device-mobile .row{grid-template-columns:56px minmax(0,1fr) 88px}.device-auto .tierBadge,.device-mobile .tierBadge{font-size:8px}.device-auto .nm b,.device-mobile .nm b{font-size:12px}.device-auto .rt small,.device-mobile .rt small{font-size:6.8px}.device-auto nav #lineupsBtn,.device-mobile nav #lineupsBtn{font-size:6.4px}.device-auto nav #auctionBtn,.device-mobile nav #auctionBtn{font-size:7px}
+}
